@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-
-URL = ('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/tips.csv')
+ 
+URL = ('https://raw.githubusercontent.com/iantonios/'
+       'dsc205/refs/heads/main/tips.csv')
 df = pd.read_csv(URL)
-
+ 
 st.title('Restaurant Tips')
 st.markdown('Dataset shows information from 245 transactions. Recorded data like the total bill amount, tip, if they smoked, day, time of day and size of party')
-
+ 
 st.subheader('The data')
 st.dataframe(df, width=700, height=250)
 st.write(f'{len(df)} meals are recorded in this dataset.')
