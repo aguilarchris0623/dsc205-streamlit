@@ -16,10 +16,9 @@ Outcome = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabe
 
 if Outcome == 'Diabetic':
     df = df.loc[df['Outcome']=='1']
-elif Outcome == 'Europe':
+elif Outcome == 'Non-diabetic':
     df = df.loc[df['Outcome']=='0']
-else:
-    df = df.loc[df['Outcome']=='2']
+
 
 fig = plt.figure()
 ax = fig.add_subplot()
