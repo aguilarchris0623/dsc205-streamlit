@@ -6,11 +6,9 @@ url = ('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/mall_
 df = pd.read_csv(url)
 
 st.title('Mall customers')
-st.markdown('Dataset shows')
-
-st.radio('Select Gender', options=['Male', 'Female'])
 
 st.subheader('Spending score by gender')
+st.radio('Select Gender', options=['Male', 'Female'])
 fig, ax = plt.subplots()
 ax.hist(df['Gender'], df['Spending Score (1-100)'])
 ax.set_xlabel('Gender')
