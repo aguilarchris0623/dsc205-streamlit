@@ -3,13 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 url = ('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/mall_customers.csv')
-df = pd.read_csv(url)
+df = pd.read_csv(URL)
 
 st.title('Mall customers')
 st.markdown('Dataset shows')
 
-radio_buttons = RadioButtons(options=['Male', 'Female'])
-interact(gender=radio_buttons)
+st.radio('Select Gender', options=['Male', 'Female'])
 
 st.subheader('Spending score by gender')
 fig, ax = plt.subplots()
