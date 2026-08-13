@@ -18,7 +18,7 @@ min_income = int(df['Median household income'].min())
 max_income = int(df['Median household income'].max())
 
 income_range = st.slider(
-     ,
+
     min_value=min_income,
     max_value=max_income,
     value=(min_income, max_income))
