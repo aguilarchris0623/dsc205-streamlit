@@ -8,7 +8,7 @@ df = pd.read_csv(url)
 st.title('Mall customers')
 
 st.subheader('Spending score by gender')
-st.radio('Outcome', options=['1', '0'])
+st.radio('Outcome', options=['Diabetic', '0'])
 fig, ax = plt.subplots()
 ax.hist(df['Outcome'])
 ax.set_xlabel('Gender')
