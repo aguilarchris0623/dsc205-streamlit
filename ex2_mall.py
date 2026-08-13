@@ -10,7 +10,7 @@ if st.checkbox('Show raw data'):
     st.write(df)
 
 st.markdown('---')
-st.subheader('Gas consumption by country of origin')
+st.subheader('Distribution of glucose')
 
 Select = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
 
@@ -21,6 +21,6 @@ else:
 
 fig = plt.figure()
 ax = fig.add_subplot()
-ax.set_xlabel('mpg')
+ax.set_xlabel('Glucose Level')
 ax.hist(df['Glucose'], bins=20)
 st.pyplot(fig)
