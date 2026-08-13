@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.title('Diabetic vs. non-diabetic')
+st.title('Diabetic vs. Non-diabetic')
 df = pd.read_csv('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/diabetes.csv')
 
 if st.checkbox('Show raw data'):
@@ -12,7 +12,7 @@ if st.checkbox('Show raw data'):
 st.markdown('---')
 st.subheader('Distribution of glucose')
 
-Select = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
+Select = st.radio('Select if Diabetic or Non-diabetic', ('Diabetic', 'Non-diabetic'))
 
 if Select == 'Diabetic':
     df = df.loc[df['Outcome'] == 1]
