@@ -35,5 +35,5 @@ bottom_5_income = df_sorted.tail(5)
 plot_df = pd.concat([top_5_income, bottom_5_income])
 chart = alt.Chart(plot_df).mark_bar().encode(
 x=alt.X('Town:N', sort=alt.EncodingSortField(field='Median household income', op='mean', order='descending'), title='City Name'),
-y=alt.Y('Median household income:Q', title='Median Household Income')
+y=alt.Y('Median household income:Q', title='Median Household Income'))
 st.altair_chart(chart, use_container_width=True)
