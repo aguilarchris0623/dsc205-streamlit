@@ -36,7 +36,7 @@ bottom_5_income = df_sorted.tail(5)
 plot_df = pd.concat([top_5_income, bottom_5_income])
 
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.bar(plot_df['Place'], plot_df['Median household income'], color=['skyblue' if inc > top_5_income['Median household income'].min() else 'lightcoral' for inc in plot_df['Median household income']])
+ax.bar(plot_df['Place'], plot_df['Median household income'])
 ax.set_xlabel('City Name')
 ax.set_ylabel('Median Household Income')
 st.pyplot(fig)
