@@ -11,4 +11,4 @@ df['Median family income'] = df['Median family income'].str.replace('$', '', reg
 
 counties = df['County'].unique()
 selected_county = st.selectbox('Select a County', counties)
-st.dataframe(county_df[['Town', 'Population', 'Median household income']], width=800, height=200)
+st.dataframe(df[['Town', 'Population', 'Median household income']], width=800, height=200)
