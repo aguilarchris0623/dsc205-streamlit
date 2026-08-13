@@ -14,4 +14,4 @@ selected_county = st.selectbox('Select a County', counties)
 county_df = df[df['County'] == selected_county]
 
 st.subheader(f'Cities and Towns in {selected_county} County')
-st.dataframe(county_df[['Town', 'Population', 'Median household income']], width=800, height=200)
+st.dataframe(county_df[['Place', 'Population', 'Median household income']], width=800, height=200)
