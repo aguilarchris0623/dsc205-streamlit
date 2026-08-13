@@ -11,10 +11,6 @@ df['Median family income'] = df['Median family income'].str.replace('$', '', reg
 
 counties = df['County'].unique()
 selected_county = st.selectbox('Select a County', counties)
-
-
-
-st.subheader(f'Cities and Towns in {selected_county} County')
 st.dataframe(county_df[['Town', 'Population', 'Median household income']], width=800, height=200)
 
 min_income = int(df['Median household income'].min())
