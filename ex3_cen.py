@@ -36,10 +36,7 @@ bottom_5_income = df_sorted.tail(5)
 # Combine for plotting
 plot_df = pd.concat([top_5_income, bottom_5_income])
 
-# Create the bar chart using Altair for better Streamlit integration and interactivity
-chart = plt.bar(plot_df).mark_bar().encode(
-    x=alt.X('Town:N', sort=alt.EncodingSortField(field='Median household income', op='mean', order='descending'), title='City Name'),
-    y=alt.Y('Median household income:Q', title='Median Household Income'),
-    color=alt.Color('Median household income:Q', scale=alt.Scale(range='heatmap'))).properties(title='Top 5 Highest and Bottom 5 Lowest Median Household Income Cities')
-
-st.altair_chart(chart, use_container_width=True)
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.bar(plot_df['Place'], plot_df['Median household income'], color=['skyblue' if inc > top_5_income['Median household income'].min() else 'lightcoral' for inc in plot_df['Median household income']])
+ax.set_xlabel('City Name')
+ax.set_ylabel('Median Household Income')
