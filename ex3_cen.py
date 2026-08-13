@@ -18,9 +18,11 @@ min_income = int(df['Median household income'].min())
 max_income = int(df['Median household income'].max())
 
 income_range = st.slider(
-    'Select a Median Household Income Range',
     min_value=min_income,
     max_value=max_income,
-    value=(min_income, max_income))
+
+income_filtered_df = df[
+    (df['Median household income'] >= income_range[0]) &
+    (df['Median household income'] <= income_range[1])]
 
 st.dataframe(income_filtered_df[['Place', 'Median household income']], width=800, height=200)
