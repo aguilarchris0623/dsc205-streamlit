@@ -12,9 +12,9 @@ if st.checkbox('Show raw data'):
 st.markdown('---')
 st.subheader('Gas consumption by country of origin')
 
-Outcome = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
+Select = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
 
-if Outcome == 'Diabetic':
+if Select == 'Diabetic':
     df = df.loc[df['Outcome']=='1']
 else:
     df = df.loc[df['Outcome']=='0']
