@@ -15,12 +15,12 @@ st.subheader('Gas consumption by country of origin')
 Select = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
 
 if Select == 'Diabetic':
-    df = df.loc[df['Outcome']=='1']
+    df = df.loc[df['Outcome'] == '1']
 else:
-    df = df.loc[df['Outcome']=='0']
+    df = df.loc[df['Outcome'] == '0']
 
 fig = plt.figure()
 ax = fig.add_subplot()
 ax.set_xlabel('mpg')
-ax.hist(df['Outcome'])
+ax.hist(df['Glucose'], bins=20)
 st.pyplot(fig)
