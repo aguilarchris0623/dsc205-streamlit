@@ -2,15 +2,27 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-url = ('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/diabetes.csv')
-df = pd.read_csv(url)
+st.title('Diabetic vs. non-diabetic')
+df = pd.read_csv('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/diabetes.csv')
 
-st.title('Mall customers')
+if st.checkbox('Show raw data'):
+    st.subheader('Raw data')
+    st.write(df)
 
-st.subheader('Spending score by gender')
-st.radio('Outcome', options=['Diabetic', '0'])
-fig, ax = plt.subplots()
+st.markdown('---')
+st.subheader('Gas consumption by country of origin')
+
+Outcome = st.radio('Select if diabetic or non-diabetic', ('Diabetic', 'Non-diabetic'))
+
+if Outcome == 'Diabetic':
+    df = df.loc[df['Outcome']=='1']
+elif Outcome == 'Europe':
+    df = df.loc[df['Outcome']=='0']
+else:
+    df = df.loc[df['Outcome']=='2']
+
+fig = plt.figure()
+ax = fig.add_subplot()
+ax.set_xlabel('mpg')
 ax.hist(df['Outcome'])
-ax.set_xlabel('Gender')
-ax.set_ylabel('Spending Score')
-st.pyplot(fig, clear_figure=True)
+st.pyplot(fig)
