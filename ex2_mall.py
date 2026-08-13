@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 url = ('https://raw.githubusercontent.com/iantonios/dsc205/refs/heads/main/mall_customers.csv')
-df = pd.read_csv(URL)
+df = pd.read_csv(url)
 
 st.title('Mall customers')
 st.markdown('Dataset shows')
