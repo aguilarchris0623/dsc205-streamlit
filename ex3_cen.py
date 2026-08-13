@@ -33,5 +33,5 @@ df_sorted = df.sort_values(by='Median household income', ascending=False)
 top_5_income = df_sorted.head(5)
 bottom_5_income = df_sorted.tail(5)
 plot_df = pd.concat([top_5_income, bottom_5_income])
-chart = alt.Chart(plot_df).mark_bar().encode(
+chart = alt.Chart(plot_df).mark_bar().encode()
 
