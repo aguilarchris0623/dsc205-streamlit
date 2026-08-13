@@ -32,3 +32,4 @@ st.dataframe(income_filtered_df[['Place', 'Median household income']], width=800
 df_sorted = df.sort_values(by='Median household income', ascending=False)
 top_5_income = df_sorted.head(5)
 bottom_5_income = df_sorted.tail(5)
+plot_df = pd.melt([top_5_income, bottom_5_income])
