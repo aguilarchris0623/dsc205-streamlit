@@ -12,6 +12,23 @@ df['Median family income'] = df['Median family income'].str.replace('$', '', reg
 counties = df['County'].unique()
 selected_county = st.selectbox('Select a County', counties)
 county_df = df[df['County'] == selected_county]
-
-st.subheader(f'Cities and Towns in {selected_county} County')
 st.dataframe(county_df[['Place']], width=800, height=200)
+
+min_income = int(df['Median household income'].min())
+max_income = int(df['Median household income'].max())
+
+income_range = st.slider(
+    'Select a Median Household Income Range',
+    min_value=min_income,
+    max_value=max_income,
+    value=(min_income, max_income) # Default to full range
+)
+
+# Filter DataFrame based on selected income range
+income_filtered_df = df[
+    (df['Median household income'] >= income_range[0]) &
+    (df['Median household income'] <= income_range[1])
+]
+
+st.subheader(f'Towns with Median Household Income between ${income_range[0]:,} and ${income_range[1]:,}')
+st.dataframe(income_filtered_df[['Town', 'Median household income']], width=800, height=200)
