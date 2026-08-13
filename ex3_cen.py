@@ -14,6 +14,9 @@ selected_county = st.selectbox('Select a County', counties)
 county_df = df[df['County'] == selected_county]
 st.dataframe(county_df[['Place']], width=800, height=200)
 
+min_income = int(df['Median household income'].min())
+max_income = int(df['Median household income'].max())
+
 income_range = st.slider(
     'Select a Median Household Income Range',
     min_value=min_income,
