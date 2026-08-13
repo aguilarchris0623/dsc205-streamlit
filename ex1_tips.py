@@ -23,5 +23,5 @@ st.pyplot(fig, clear_figure=True)
  
 st.subheader('Bill size vs. tip')
 fig2, ax2 = plt.subplots()
-ax2.scatter(df['total_bill'], df['tip'])
+ax2.scatter(df['total_bill'], df['tip'], s='12')
 st.pyplot(fig2, clear_figure=True)
