@@ -4,6 +4,8 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 from streamlit_folium import st_folium
+import numpy as np
+
 
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
