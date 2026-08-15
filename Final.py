@@ -35,7 +35,9 @@ how='inner',)
 
 
 
-
+# Filter dataset for the latest date slice
+latest_date = df['Last update date'].max()
+latest_df = df[df['Last update date'] == latest_date].copy()
 
 # Calculate per-capita metrics
 latest_df['Deaths per 100k'] = (
