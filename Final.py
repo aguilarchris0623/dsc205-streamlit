@@ -11,10 +11,10 @@ df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-
 
 df_tests.columns = df_tests.columns.str.strip()
 for col in [
-'Total cases',
-'Total deaths',
-'Number of tests',
-'Number of positives',]:
+    'Total cases',
+    'Total deaths',
+    'Number of tests',
+    'Number of positives',]:
 if col in df_tests.columns:
     df_tests[col] = pd.to_numeric(
         df_tests[col].astype(str).str.replace(',', ''), errors='coerce')
