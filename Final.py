@@ -15,9 +15,9 @@ for col in [
 'Total deaths',
 'Number of tests',
 'Number of positives',]:
-    if col in df_tests.columns:
+if col in df_tests.columns:
     df_tests[col] = pd.to_numeric(
-    df_tests[col].astype(str).str.replace(',', ''), errors='coerce')
+        df_tests[col].astype(str).str.replace(',', ''), errors='coerce')
 
 # Aggregate total population per town & assign tiers
 town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
