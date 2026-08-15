@@ -26,9 +26,7 @@ test_numeric_cols = [
 for col in test_numeric_cols:
     if col in df_tests.columns:
 # Remove commas and convert to numeric
-df_tests[col] = pd.to_numeric(
-df_tests[col].astype(str).str.replace(',', '').str.strip(),
-errors='coerce',)
+    df_tests[col] = pd.to_numeric(df_tests[col].astype(str).str.replace(',', '').str.strip(),errors='coerce',)
 
     # 4. Clean and convert Population column in Census dataset
 df_pop['ALL_RACE-ETHN'] = pd.to_numeric(
