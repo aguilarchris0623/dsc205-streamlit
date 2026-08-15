@@ -32,7 +32,7 @@ df = pd.merge(
     on='Town',
     how='inner',)
 
-    return df
+return df
 
 
 
