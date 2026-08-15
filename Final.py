@@ -3,7 +3,7 @@ import plotly.express as px
 import pandas as pd
 
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
-df_pop = pd.read_csv('2020v21CT.csv')
+df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
 # Aggregate total population per town & assign tiers
     town_pop = (
@@ -29,6 +29,40 @@ df_pop = pd.read_csv('2020v21CT.csv')
         df_tests,
         town_pop[['Town', 'Population', 'Town_Tier']],
         on='Town',
-        how='inner',
-    )
+        how='inner',)
     return df
+
+
+
+
+
+
+# Calculate per-capita metrics
+latest_df['Deaths per 100k'] = (
+    latest_df['Total deaths'] / latest_df['Population']
+) * 100000
+latest_df['Positivity Rate (%)'] = (
+    latest_df['Number of positives'] / latest_df['Number of tests']
+) * 100
+
+# Widget: Metric Selection Dropdown
+selected_metric = st.selectbox(
+    "Select Y-Axis Metric:",
+    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],
+)
+
+# Plot Visual 1
+fig1 = px.scatter(
+    latest_df,
+    x="Population",
+    y=selected_metric,
+    color="Town_Tier",
+    hover_name="Town",
+    log_x=True,  # Log scale x-axis to accommodate population variance
+    log_y=True,  # Log scale y-axis
+    title=f"Town Population vs. {selected_metric} (Log-Log Scale)",
+    labels={"Population": "Town Population (Log Scale)"},
+    color_discrete_sequence=px.colors.qualitative.Set1,
+)
+
+st.plotly_chart(fig1, use_container_width=True)
