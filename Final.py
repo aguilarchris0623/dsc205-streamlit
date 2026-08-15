@@ -28,7 +28,6 @@ df_tests,
 town_pop[['Town', 'Population', 'Town_Tier']],
 on='Town',
 how='inner',)
-return df
 
 
 
