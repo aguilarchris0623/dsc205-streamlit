@@ -38,8 +38,8 @@ latest_date = df['Last update date'].max()
 latest_df = df[df['Last update date'] == latest_date].copy()
 
 # Calculate per-capita metrics
-latest_df['Deaths per 100k'] = latest_df.dropna().Total_deaths / latest_df.dropna().Population) * 100000
-latest_df['Positivity Rate (%)'] = latest_df.dropna().Number_of_positives / latest_df.dropna().Number_of_tests) * 100
+latest_df['Deaths per 100k'] = (latest_df.dropna().Total_deaths / latest_df.dropna().Population) * 100000
+latest_df['Positivity Rate (%)'] = (latest_df.dropna().Number_of_positives / latest_df.dropna().Number_of_tests) * 100
 
 # Widget: Metric Selection Dropdown
 selected_metric = st.selectbox(
