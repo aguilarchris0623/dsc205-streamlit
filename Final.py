@@ -2,26 +2,33 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
-df = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
+df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
+df_pop = pd.read_csv('2020v21CT.csv')
 
-df['Last update date'] = pd.to_datetime(df['Last update date'])
-df['YearMonth'] = df['Last update date'].dt.to_period('M')
-columns_to_sum = [
-    'Total cases', 'Confirmed cases', 'Probable cases',
-    'Total deaths', 'Confirmed deaths', 'Probable deaths',
-    'People tested', 'Number of tests', 'Number of positives',
-    'Number of negatives', 'Number of indeterminates']
+# Aggregate total population per town & assign tiers
+    town_pop = (
+        df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index()
+    )
+    town_pop['Town'] = (
+        town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip()
+    )
+    town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
-# Clean column names by stripping whitespace
-df.columns = df.columns.str.strip()
+    def get_tier(pop):
+        if pop > 50000:
+            return 'Urban Hubs (>50k)'
+        elif pop >= 10000:
+            return 'Suburban (10k-50k)'
+        else:
+            return 'Rural (<10k)'
 
-# Convert specified columns to numeric, handling non-numeric values by coercing them to NaN
-for col in columns_to_sum:
-    if col in df.columns:
-        df[col] = df[col].astype(str).str.replace(',', '', regex=False)
-        df[col] = pd.to_numeric(df[col], errors='coerce')
+    town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
 
-# Group by 'Town' and 'YearMonth' and sum the relevant columns
-monthly_updates = df.groupby(['Town', 'YearMonth'])[columns_to_sum].sum().reset_index()
-
-df2 = pd.read_csv("2020v21CT.csv")
+    # Merge population demographics into Covid dataset
+    df = pd.merge(
+        df_tests,
+        town_pop[['Town', 'Population', 'Town_Tier']],
+        on='Town',
+        how='inner',
+    )
+    return df
