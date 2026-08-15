@@ -4,17 +4,24 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 from streamlit_folium import st_folium
-import numpy as np
 
 
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
+df_tests.columns = df_tests.columns.str.strip()
+for col in [
+'Total cases',
+'Total deaths',
+'Number of tests',
+'Number of positives',]:
+    if col in df_tests.columns:
+    df_tests[col] = pd.to_numeric(
+    df_tests[col].astype(str).str.replace(',', ''), errors='coerce')
+
 # Aggregate total population per town & assign tiers
-town_pop = (
-df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
-town_pop['Town'] = (
-town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
+town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
+town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 def get_tier(pop):
