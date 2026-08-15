@@ -9,40 +9,10 @@ from streamlit_folium import st_folium
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests.csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
-
-df_tests.columns = df_tests.columns.str.strip()
-df_pop.columns = df_pop.columns.str.strip()
-
-# 3. Explicitly clean and convert ALL test metrics to numeric (float/int)
-test_numeric_cols = [
-    'Total cases',
-    'Total deaths',
-    'Number of tests',
-    'Number of positives',
-    'Number of negatives',
-    'Case rate',
-    'Rate tested per 100k',]
-
-for col in test_numeric_cols:
-    if col in df_tests.columns:
-# Remove commas and convert to numeric
-    df_tests[col] = pd.to_numeric(df_tests[col].astype(str).str.replace(',', '').str.strip(),errors='coerce',)
-
-    # 4. Clean and convert Population column in Census dataset
-df_pop['ALL_RACE-ETHN'] = pd.to_numeric(
-df_pop['ALL_RACE-ETHN'].astype(str).str.replace(',', '').str.strip(),
-errors='coerce',)
-
-# 5. Parse update date
-df_tests['Last update date'] = pd.to_datetime(df_tests['Last update date'])
-
 # 6. Aggregate population per town & clean town names
 town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
 town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
-
-    # Ensure Population is explicitly numeric
-town_pop['Population'] = pd.to_numeric(town_pop['Population'], errors='coerce')
 
 # 7. Classify Population Tiers
 def get_tier(pop):
@@ -63,3 +33,38 @@ df = pd.merge(
     how='inner',)
 
     return df
+
+
+
+latest_date = df['Last update date'].max()
+latest_df = df[df['Last update date'] == latest_date].copy()
+
+# Calculate per-capita metrics
+latest_df['Deaths per 100k'] = (
+    latest_df['Total deaths'] / latest_df['Population']
+) * 100000
+latest_df['Positivity Rate (%)'] = (
+    latest_df['Number of positives'] / latest_df['Number of tests']
+) * 100
+
+# Widget: Metric Selection Dropdown
+selected_metric = st.selectbox(
+    "Select Y-Axis Metric:",
+    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],
+)
+
+# Plot Visual 1
+fig1 = px.scatter(
+    latest_df,
+    x="Population",
+    y=selected_metric,
+    color="Town_Tier",
+    hover_name="Town",
+    log_x=True,  # Log scale x-axis to accommodate population variance
+    log_y=True,  # Log scale y-axis
+    title=f"Town Population vs. {selected_metric} (Log-Log Scale)",
+    labels={"Population": "Town Population (Log Scale)"},
+    color_discrete_sequence=px.colors.qualitative.Set1,
+)
+
+st.plotly_chart(fig1, use_container_width=True)
