@@ -2,8 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 
-df = pd.read_csv("covid_tests.csv")
-df2 = pd.read_csv("2020v2021ct.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid_tests.csv")
 
 df['Last update date'] = pd.to_datetime(df['Last update date'])
 df['YearMonth'] = df['Last update date'].dt.to_period('M')
