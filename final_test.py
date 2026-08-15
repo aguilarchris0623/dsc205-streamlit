@@ -32,8 +32,6 @@ df = pd.merge(
     on='Town',
     how='inner',)
 
-return df
-
 
 
 latest_date = df['Last update date'].max()
