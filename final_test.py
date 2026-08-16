@@ -52,7 +52,7 @@ latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 10
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
 fig = px.scatter(
-    df,
+    latest,
     x="Population",
     y=selected_metric,
     color="Town_Tier",
