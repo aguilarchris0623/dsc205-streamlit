@@ -15,6 +15,10 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
+df_tests[col] = pd.to_numeric(
+    df_tests[col].astype(str).str.replace(',', '').str.strip(),
+    errors='coerce',)
+
 def get_tier(pop):
         if pop > 50000:
             return 'Urban Hubs (>50k)'
@@ -48,4 +52,5 @@ fig1 = px.scatter(
         log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
         title=f"{metric_choice} vs. Town Population",
         labels={"Population": "Town Population"},)
+
 st.plotly_chart(fig1, use_container_width=True)
