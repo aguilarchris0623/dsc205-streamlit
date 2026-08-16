@@ -21,8 +21,7 @@ for col in df_tests.columns:
     if col not in columns_to_exclude:
         if df_tests[col] == pd.to_numeric(
                 df_tests[col].astype(str).str.replace(",", "", regex=False),
-                errors="coerce",)
-        return df_tests
+                errors="coerce")):
 
 def get_tier(pop):
         if pop > 50000:
