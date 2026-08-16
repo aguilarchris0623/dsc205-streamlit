@@ -17,7 +17,7 @@ df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
 columns_to_exclude = ['Last update date', 'Town']
 
-for col in df.columns:
+for col in df_tests.columns:
     if col not in columns_to_exclude:
         if df[col].dtype == 'object':
             df[col] = df[col].astype(str).str.replace(',', '', regex=False)
