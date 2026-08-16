@@ -54,4 +54,4 @@ sns.scatterplot(
         ax.set_xlabel("Town Population", fontsize=12)
         ax.set_ylabel(selected_metric, fontsize=12)
         ax.legend(title='Town Tier')
-        st.pyplot(fig)
+        st.pyplot(fig))
