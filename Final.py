@@ -25,6 +25,9 @@ def get_tier(pop):
 
 town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
 
+df_tests["Town"] = df_tests["Town"].str.strip()
+df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
+
 # Merge population demographics into Covid dataset
 df = pd.merge(
 df_tests,
