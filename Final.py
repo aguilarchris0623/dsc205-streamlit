@@ -44,14 +44,20 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  on='Town',
  how='inner',)
 
+metric_choice = st.selectbox(
+        "Metric",
+        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
+
 latest = (
         df.sort_values("Last update date")
         .groupby("Town", as_index=False)
         .last())
 
-# Define metric_choice before using it
-metric_choice = 'Deaths per 100k' # You can change this to 'Positivity Rate (%)' or other metrics
+if st.checkbox('Show raw data'):
+    st.subheader('Raw data')
+    st.write(latest)
 
+# Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 10
 
