@@ -79,7 +79,7 @@ df_sorted['Daily New Cases'] = df_sorted.groupby('Town')['Total cases'].diff().f
 df_sorted['Daily New Cases'] = df_sorted['Daily New Cases'].apply(lambda x: max(0, x))
 
 # Aggregate daily new cases by date and town tier for plotting
-tier_ts = df_sorted.groupby(['Last update date', 'Town_Tier'])['Daily New Cases'].sum().reset_index()
+tier_ts = df_sorted.groupby(['Last update date', 'Town Tier'])['Daily New Cases'].sum().reset_index()
 
 # Plot Visual 2: Daily New Cases
 fig2 = px.line(
