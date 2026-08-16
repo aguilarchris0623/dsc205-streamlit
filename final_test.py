@@ -41,15 +41,17 @@ town_pop[['Town', 'Population', 'Town_Tier']],
 
 df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
 
-fig1 = px.scatter(
-        latest,
-        x="Population",
-        y="Deaths per 100k",
-        color="Town_Tier",
-        hover_name="Town",
-        log_x=True,
-        log_y=True,
-        title="Deaths per 100k vs. Town Population (log-log)",
-        labels={"Population": "Town Population"},)
+selected_metric = st.selectbox(
+    "Select Y-Axis Metric:",
+    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
-st.plotly_chart(fig1, use_container_width=True)
+fig1 = fig, ax = plt.subplots(figsize=(12, 7))
+sns.scatterplot(
+        data=df,
+        x="Population",
+        y=selected_metric,
+        hue="Town_Tier",
+        ax.set_xlabel("Town Population", fontsize=12)
+        ax.set_ylabel(selected_metric, fontsize=12)
+        ax.legend(title='Town Tier')
+        st.pyplot(fig)
