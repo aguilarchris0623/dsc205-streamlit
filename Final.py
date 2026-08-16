@@ -15,7 +15,7 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-columns_to_exclude = ['Last update date', 'Town', ']
+columns_to_exclude = ['Last update date', 'Town', 'Number of positives', 'Number of tests']
 
 for col in df_tests.columns:
     if col not in columns_to_exclude:
