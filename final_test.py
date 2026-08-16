@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 
 
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests.csv")
@@ -30,22 +31,17 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  on='Town',
  how='inner',)
 
-
 df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
 
 selected_metric = st.selectbox(
     "Select Y-Axis Metric:",
     ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
-fig1 = fig, ax = plt.subplots(figsize=(12, 7))
-sns.scatterplot(
-        data=df,
-        x="Population",
-        y=selected_metric,
-        hue="Town_Tier",
-        ax=ax)
-ax.set_xscale('log')
-ax.set_xlabel("Town Population", fontsize=12),
-ax.set_ylabel(selected_metric, fontsize=12),
-ax.legend(title='Town Tier')
-st.pyplot(fig)
+fig = px.scatter(df,
+            x="Population",
+            y="selected_metric",
+            color="Town_Tier",
+            hover_name="name",
+            size_max=30,
+            range_x=[5,50],
+            range_y=[0,300])
