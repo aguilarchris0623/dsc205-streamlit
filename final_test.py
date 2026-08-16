@@ -39,7 +39,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  on='Town',
  how='inner',)
 
-selected_metric = st.selectbox(
+metric_choice = st.selectbox(
         "Metric",
         ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
