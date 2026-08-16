@@ -20,7 +20,8 @@ numeric_cols = ["Total cases", "Total deaths", "Number of tests", "Number of pos
         if col in df_tests.columns and not pd.api.types.is_numeric_dtype(df_tests[col]):
             df_tests[col] = pd.to_numeric(
                 df_tests[col].astype(str).str.replace(",", "", regex=False),
-                errors="coerce",
+                errors="coerce",)
+                
 
 town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
 
