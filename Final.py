@@ -15,10 +15,6 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-
-
-
-
 def get_tier(pop):
         if pop > 50000:
             return 'Urban (>50k)'
@@ -48,10 +44,9 @@ if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
 
-
 # Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 100
+latest["Positivity Rate (%)"] = (latest["Number of Number of positives"] / latest["Number of tests"]) * 100
 
 fig1 = px.scatter(
     latest,
