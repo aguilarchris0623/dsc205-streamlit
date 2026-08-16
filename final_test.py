@@ -38,16 +38,8 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  on='Town',
  how='inner',)
 
-filtered = data[
-    data["Town_Tier"].isin(tiers_selected)
-    & data["Last update date"].between(*date_range)]
 
-latest = (
-        filtered.sort_values("Last update date")
-        .groupby("Town", as_index=False)
-        .last())
-
-latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
+df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
 
 fig1 = px.scatter(
         latest,
