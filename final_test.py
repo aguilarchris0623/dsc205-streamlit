@@ -15,22 +15,12 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-columns_to_exclude = ['Last update date', 'Town']
-
-for col in df_tests.columns:
-    if col not in columns_to_exclude:
-        if df_tests[col].equals(pd.to_numeric(
+numeric_cols = ["Total cases", "Total deaths", "Number of tests", "Number of positives"]
+    for col in numeric_cols:
+        if col in df_tests.columns and not pd.api.types.is_numeric_dtype(df_tests[col]):
+            df_tests[col] = pd.to_numeric(
                 df_tests[col].astype(str).str.replace(",", "", regex=False),
-                errors="coerce")):
-                    pass
-
-def get_tier(pop):
-        if pop > 50000:
-            return 'Urban (>50k)'
-        elif pop >= 10000:
-            return 'Suburban (10k-50k)'
-        else:
-            return 'Rural (<10k)'
+                errors="coerce",
 
 town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
 
