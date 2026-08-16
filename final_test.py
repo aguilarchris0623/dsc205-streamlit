@@ -20,8 +20,7 @@ pop = (
         .rename(columns={"ALL_RACE-ETHN": "Population"}))
 pop["Town"] = pop["TOWN NAME"].str.replace(r"\s+town$", "", regex=True).str.strip()
 
-
-df["Last update date"] = pd.to_datetime(df["Last update date"])
+df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
 df = pd.merge(
 df_tests,
