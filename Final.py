@@ -15,15 +15,7 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-columns_to_exclude = ['Last update date', 'Town', 'Number of positives', 'Number of tests']
 
-for col in df_tests.columns:
-    if col not in columns_to_exclude:
-        # Ensure the column is treated as string, remove commas, then convert to numeric
-        # This directly applies the conversion to the column
-        if df_tests[col].dtype == 'object': # Only apply str operations if it's an object type
-            df_tests[col] = df_tests[col].astype(str).str.replace(",", "", regex=False)
-        df_tests[col] = pd.to_numeric(df_tests[col], errors="coerce")
 
 
 
