@@ -58,7 +58,7 @@ fig1 = px.scatter(
     color="Town_Tier",
     hover_name="Town",
     log_x=True,
-    log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
+
     title=f"{metric_choice} vs. Town Population",
     labels={"Population": "Town Population"},)
 st.plotly_chart(fig1, use_container_width=True)
