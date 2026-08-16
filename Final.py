@@ -66,3 +66,4 @@ fig1 = px.scatter(
 fig1.update_traces(marker=dict(size=10, opacity=0.7))
 
 # Display the plot in Streamlit
+st.plotly_chart(fig1, width='stretch')
