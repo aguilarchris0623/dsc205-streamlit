@@ -61,7 +61,7 @@ fig1 = px.scatter(
 st.plotly_chart(fig1, width='stretch')
 
 
-filtered_df = df[df['Town_Tier'].isin(selected_tiers)]
+filtered_df = df[df["Town Tier"].isin(selected_tiers)]
 
 # Group chronologically by Date and Town Tier
 tier_ts = (
