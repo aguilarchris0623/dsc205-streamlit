@@ -48,6 +48,10 @@ latest = (
         .groupby("Town", as_index=False)
         .last())
 
+if st.checkbox('Show raw data'):
+    st.subheader('Raw data')
+    st.write(latest)
+
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 10
 
