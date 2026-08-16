@@ -62,7 +62,7 @@ fig1 = px.scatter(
     title=f"{metric_choice} vs. Town Population",
     labels={"Population": "Town Population"},)
 st.plotly_chart(fig1, use_container_width=True)
-fig.update_traces(marker=dict(size=10, opacity=0.7))
+fig1.update_traces(marker=dict(size=10, opacity=0.7))
 
 # Display the plot in Streamlit
 st.plotly_chart(fig, width='stretch')
