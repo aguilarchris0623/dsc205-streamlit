@@ -41,7 +41,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
 
 metric_choice = st.selectbox(
         "Metric",
-        ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
+        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
 
 latest = (
         df.sort_values("Last update date")
