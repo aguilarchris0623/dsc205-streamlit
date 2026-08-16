@@ -36,16 +36,12 @@ how='inner',)
 
 
 # Filter dataset for the latest date slice
-latest_date = df['Last update date'].max()
-latest_df = df[df['Last update date'] == latest_date].copy()
+latest_df = df['Last update date'].max()
 
 # Calculate per-capita metrics
-latest_df['Deaths per 100k'] = (
-    latest_df['Total deaths'] / latest_df['Population']
-) * 100000
-latest_df['Positivity Rate (%)'] = (
-    latest_df['Number of positives'] / latest_df['Number of tests']
-) * 100
+latest_df["Deaths per 100k"] = (latest_df["Total deaths"] / latest_df["Population"]) * 100_000
+latest_df["Positivity Rate (%)"] = (latest_df["Number of positives"] / latest_df["Number of tests"]) * 100
+
 
 # Widget: Metric Selection Dropdown
 selected_metric = st.selectbox(
