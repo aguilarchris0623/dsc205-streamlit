@@ -40,7 +40,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
 
 filtered = data[
     data["Town_Tier"].isin(tiers_selected)
-    & data["Last update date"].between(*date_range)
+    & data["Last update date"].between(*date_range)]
 
 latest = (
         filtered.sort_values("Last update date")
