@@ -25,8 +25,11 @@ for col in df_tests.columns:
             df_tests[col] = df_tests[col].astype(str).str.replace(",", "", regex=False)
         df_tests[col] = pd.to_numeric(df_tests[col], errors="coerce")
 
-df_tests['Number of tests'] = pd.to_numeric(df_tests['Number of tests'])
-df_tests['Number of positives'] = pd.to_numeric(df_tests['Number of positives'])
+tests_cleaned = df_tests["Number of tests"].astype(str).str.replace(',', '')
+positives_cleaned = df_tests["Number of positives"].astype(str).str.replace(',', '')
+tests = pd.to_numeric(tests_cleaned, errors='coerce')
+positives = pd.to_numeric(positives_cleaned, errors='coerce')
+
 
 def get_tier(pop):
         if pop > 50000:
@@ -59,7 +62,7 @@ if st.checkbox('Show raw data'):
 
 # Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 10
+latest["Positivity Rate (%)"] = (positives / tests) * 100
 
 fig1 = px.scatter(
     latest,
