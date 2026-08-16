@@ -25,7 +25,7 @@ for col in df_tests.columns:
 
 def get_tier(pop):
         if pop > 50000:
-            return 'Urban Hubs (>50k)'
+            return 'Urban (>50k)'
         elif pop >= 10000:
             return 'Suburban (10k-50k)'
         else:
@@ -49,7 +49,7 @@ latest = (
         .last())
 
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
+latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 100
 
 fig1 = px.scatter(
     latest,
