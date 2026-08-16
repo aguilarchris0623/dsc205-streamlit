@@ -19,7 +19,7 @@ columns_to_exclude = ['Last update date', 'Town']
 
 for col in df_tests.columns:
     if col not in columns_to_exclude:
-        if df_tests[col] = pd.to_numeric(
+        if df_tests[col] == pd.to_numeric(
                 df_tests[col].astype(str).str.replace(",", "", regex=False),
                 errors="coerce",)
 
