@@ -68,13 +68,13 @@ filtered_df = df[df["Town Tier"].isin(selected_tiers)]
 # Group chronologically by Date and Town Tier
 tier_ts = (
     filtered_df.groupby(['Last update date', "Town Tier"])[
-        ['Total cases', 'Population']
+        ["Total cases", 'Population']
     ]
     .sum()
     .reset_index()
 )
 tier_ts['Cumulative Cases per 100k'] = (
-    tier_ts['Total cases'] / tier_ts['Population']
+    tier_ts["Total cases"] / tier_ts['Population']
 ) * 100000
 
 # Plot Visual 2
