@@ -15,7 +15,7 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-columns_to_exclude = ['Last update date', 'Town']
+columns_to_exclude = ['Last update date', 'Town', ']
 
 for col in df_tests.columns:
     if col not in columns_to_exclude:
@@ -52,11 +52,6 @@ latest = (
         .groupby("Town", as_index=False)
         .last())
 
-tests_cleaned = latest["Number of tests"].astype(str).str.replace(',', '')
-positives_cleaned = latest["Number of positives"].astype(str).str.replace(',', '')
-tests = pd.to_numeric(tests_cleaned, errors='coerce')
-positives = pd.to_numeric(positives_cleaned, errors='coerce')
-
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
@@ -64,7 +59,7 @@ if st.checkbox('Show raw data'):
 
 # Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (positives / tests) * 100
+latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 100
 
 fig1 = px.scatter(
     latest,
