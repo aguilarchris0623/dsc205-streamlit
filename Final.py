@@ -25,6 +25,8 @@ for col in df_tests.columns:
             df_tests[col] = df_tests[col].astype(str).str.replace(",", "", regex=False)
         df_tests[col] = pd.to_numeric(df_tests[col], errors="coerce")
 
+df_tests['Number of tests'] = pd.to_numeric(df_tests['Number of tests'])
+df_tests['Number of positives'] = pd.to_numeric(df_tests['Number of positives'])
 
 def get_tier(pop):
         if pop > 50000:
