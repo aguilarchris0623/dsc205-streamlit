@@ -21,7 +21,16 @@ pop = (
 pop["Town"] = pop["TOWN NAME"].str.replace(r"\s+town$", "", regex=True).str.strip()
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
-merged["Town_Tier"] = pd.cut(merged["Population"], bins=TIER_BINS, labels=TIER_LABELS)
+
+def get_tier(pop):
+        if pop > 50000:
+            return 'Urban Hubs (>50k)'
+        elif pop >= 10000:
+            return 'Suburban (10k-50k)'
+        else:
+            return 'Rural (<10k)'
+
+town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
 
 df = pd.merge(
 df_tests,
