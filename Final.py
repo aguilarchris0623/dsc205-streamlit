@@ -63,7 +63,7 @@ positives = pd.to_numeric(positives_cleaned, errors='coerce')
 
 # Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (positives / tests) * 100
+latest["Positivity Rate (%)"] = ('positives' / 'tests') * 100
 
 fig1 = px.scatter(
     latest,
