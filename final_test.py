@@ -1,6 +1,6 @@
-import pandas as pd
-import plotly.express as px
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests.csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
