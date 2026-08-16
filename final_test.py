@@ -12,16 +12,6 @@ town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
 town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
-TIER_BINS = [0, 10_000, 50_000, float("inf")]
-TIER_LABELS = ["Rural (<10k)", "Suburban (10k-50k)", "Urban Hubs (>50k)"]
-
-pop = (
-        df_pop.groupby("TOWN NAME")["ALL_RACE-ETHN"]
-        .sum()
-        .reset_index()
-        .rename(columns={"ALL_RACE-ETHN": "Population"}))
-pop["Town"] = pop["TOWN NAME"].str.replace(r"\s+town$", "", regex=True).str.strip()
-
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
 def get_tier(pop):
