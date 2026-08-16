@@ -39,7 +39,7 @@ df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
 df["Positivity Rate (%)"] = (df["Number of positives"] / df["Number of tests"]) * 100
 
 fig1 = px.scatter(
-        latest,
+        df,
         x="Population",
         y=metric_choice,
         color="Town_Tier",
