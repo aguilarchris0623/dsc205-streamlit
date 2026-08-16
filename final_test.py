@@ -43,8 +43,13 @@ selected_metric = st.selectbox(
         "Metric",
         ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
-df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
-df["Positivity Rate (%)"] = (df["Number of positives"] / df["Number of tests"]) * 100
+latest = (
+        data.sort_values("Last update date")
+        .groupby("Town", as_index=False)
+        .last()
+
+latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
+latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
 fig = px.scatter(
     df,
