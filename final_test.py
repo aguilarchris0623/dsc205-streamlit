@@ -51,18 +51,17 @@ latest = (
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
- fig1 = px.scatter(
-        latest,
-        x="Population",
-        y=metric_choice,
-        color="Town_Tier",
-        hover_name="Town",
-        log_x=True,
-        log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
-        title=f"{metric_choice} vs. Town Population",
-        labels={"Population": "Town Population"},
-    )
-    st.plotly_chart(fig1, use_container_width=True)
+fig1 = px.scatter(
+    latest,
+    x="Population",
+    y=metric_choice,
+    color="Town_Tier",
+    hover_name="Town",
+    log_x=True,
+    log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
+    title=f"{metric_choice} vs. Town Population",
+    labels={"Population": "Town Population"},)
+st.plotly_chart(fig1, use_container_width=True)
 fig.update_traces(marker=dict(size=10, opacity=0.7))
 
 # Display the plot in Streamlit
