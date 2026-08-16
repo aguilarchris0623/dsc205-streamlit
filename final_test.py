@@ -54,6 +54,7 @@ sns.scatterplot(
         y=selected_metric,
         hue="Town_Tier",
         ax=ax)
+ax.set_xscale('log')
 ax.set_xlabel("Town Population", fontsize=12),
 ax.set_ylabel(selected_metric, fontsize=12),
 ax.legend(title='Town Tier')
