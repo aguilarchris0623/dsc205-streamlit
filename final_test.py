@@ -49,7 +49,7 @@ latest = (
         .last())
 
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 100
+latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"])
 
 fig1 = px.scatter(
     latest,
