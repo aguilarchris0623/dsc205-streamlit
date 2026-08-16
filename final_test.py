@@ -23,11 +23,11 @@ pop["Town"] = pop["TOWN NAME"].str.replace(r"\s+town$", "", regex=True).str.stri
 
 df["Last update date"] = pd.to_datetime(df["Last update date"])
 
- df = pd.merge(
-  df_tests,
-  town_pop[['Town', 'Population', 'Town_Tier']],
-  on='Town',
-  how='inner',)
+df = pd.merge(
+df_tests,
+town_pop[['Town', 'Population', 'Town_Tier']],
+ on='Town',
+ how='inner',)
 
 latest = (
         filtered.sort_values("Last update date")
