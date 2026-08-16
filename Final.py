@@ -23,11 +23,11 @@ def get_tier(pop):
         else:
             return 'Rural (<10k)'
                 
-town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
+town_pop["Town Tier"] = town_pop['Population'].apply(get_tier)
 
 df = pd.merge(
 df_tests,
-town_pop[['Town', 'Population', 'Town_Tier']],
+town_pop[['Town', 'Population', 'Town Tier']],
  on='Town',
  how='inner',)
 
@@ -52,10 +52,9 @@ fig1 = px.scatter(
     latest,
     x="Population",
     y=metric_choice,
-    color="Town_Tier",
+    color="Town Tier",
     hover_name="Town",
     log_x=True,
-
     title=f"{metric_choice} vs. Town Population",
     labels={"Population": "Town Population"},)
 
