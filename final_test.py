@@ -38,10 +38,10 @@ selected_metric = st.selectbox(
     ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
 fig = px.scatter(df,
-            x="Population",
-            y="selected_metric",
-            color="Town_Tier",
-            hover_name="name",
-            size_max=30,
-            range_x=[5,50],
-            range_y=[0,300])
+        x="Population",
+        y="selected_metric",
+        color="Town_Tier",
+        hover_name="name",
+        log_x=True,
+        log_y=(metric_choice != "Positivity Rate (%)"))
+st.plotly_chart(fig1, use_container_width=True)
