@@ -60,34 +60,38 @@ fig1 = px.scatter(
 
 st.plotly_chart(fig1, width='stretch')
 
+
+
 available_tiers = df["Town Tier"].unique().tolist()
 selected_tiers = st.multiselect(
     "Filter Town Tiers:", available_tiers, default=available_tiers)
 filtered_df = df[df["Town Tier"].isin(selected_tiers)]
 
-# Group chronologically by Date and Town Tier
-tier_ts = (
-    filtered_df.groupby(['Last update date', "Town Tier"])[
-        ["Total cases", 'Population']
-    ]
-    .sum()
-    .reset_index()
-)
-tier_ts['Cumulative Cases per 100k'] = (
-    tier_ts["Total cases"] / tier_ts['Population']
-) * 100000
+df.columns = df.columns.str.strip()
 
-# Plot Visual 2
+# Sort by date for correct difference calculation for each town
+df_sorted = df.sort_values(by=['Town', 'Last update date'])
+
+# Calculate daily new cases per town. fillna(0) for the first day of each town.
+df_sorted['Daily New Cases'] = df_sorted.groupby('Town')['Total cases'].diff().fillna(0)
+
+# Ensure new cases are not negative (e.g., due to data corrections, though they shouldn't be negative)
+df_sorted['Daily New Cases'] = df_sorted['Daily New Cases'].apply(lambda x: max(0, x))
+
+# Aggregate daily new cases by date and town tier for plotting
+tier_ts = df_sorted.groupby(['Last update date', 'Town_Tier'])['Daily New Cases'].sum().reset_index()
+
+# Plot Visual 2: Daily New Cases
 fig2 = px.line(
     tier_ts,
     x="Last update date",
-    y="Cumulative Cases per 100k",
+    y="Daily New Cases",
     color="Town_Tier",
-    title="Cumulative Cases per 100k Residents Over Time",
+    title="Daily New Cases Over Time by Town Tier",
     labels={
         "Last update date": "Date",
-        "Cumulative Cases per 100k": "Cases per 100k",
+        "Daily New Cases": "Daily New Cases",
     },
     color_discrete_sequence=px.colors.qualitative.Set1,)
 
-st.plotly_chart(fig2, use_container_width=True)
+st.plotly_chart(fig2, width='stretch')
