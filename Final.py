@@ -59,3 +59,24 @@ fig1 = px.scatter(
     labels={"Population": "Town Population"},)
 
 st.plotly_chart(fig1, width='stretch')
+
+
+trajectory_data = pd.merge(
+        trajectory_data,
+        town_pop[['Town', 'Town_Tier']],
+        on='Town',
+        how='left')
+
+tier_ts["Cumulative Cases per 100k"] = (
+        tier_ts["Total cases"] / tier_ts["Population"]) * 100_000
+
+fig2 = px.line(
+        tier_ts,
+        x="Last update date",
+        y="Cumulative Cases per 100k",
+        color="Town Tier",
+        markers=True,
+        title="Cumulative Cases per 100k Residents Over Time",
+        labels={"Last update date": "Date", "Cumulative Cases per 100k": "Cases per 100k"},)
+
+st.plotly_chart(fig2, use_container_width=True)
