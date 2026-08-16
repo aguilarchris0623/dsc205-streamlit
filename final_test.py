@@ -15,9 +15,7 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-df_tests[col] = pd.to_numeric(
-    df_tests[col].astype(str).str.replace(',', '').str.strip(),
-    errors='coerce',)
+df_tests["Total cases", "Total deaths", "Number of tests", "Number of positives"] = pd.to_numeric(df_tests["Total cases", "Total deaths", "Number of tests", "Number of positives"].astype(str).str.replace(',', '').str.strip(),errors='coerce',)
 
 def get_tier(pop):
         if pop > 50000:
