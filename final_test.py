@@ -46,7 +46,7 @@ selected_metric = st.selectbox(
 latest = (
         data.sort_values("Last update date")
         .groupby("Town", as_index=False)
-        .last()
+        .last())
 
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
