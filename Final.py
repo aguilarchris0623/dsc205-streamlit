@@ -31,6 +31,8 @@ town_pop[['Town', 'Population', 'Town Tier']],
  on='Town',
  how='inner',)
 
+st.header('Covid-19 Population vs. Infection & Mortality Metrics')
+
 metric_choice = st.selectbox(
         "Metric",
         ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
@@ -44,7 +46,6 @@ if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
 
-# Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
@@ -86,8 +87,6 @@ fig2 = px.line(
     title="Daily New Cases Over Time by Town Tier",
     labels={
         "Last update date": "Date",
-        "Daily New Cases": "Daily New Cases",
-    },
-    color_discrete_sequence=px.colors.qualitative.Set1,)
+        "Daily New Cases": "Daily New Cases",},
 
 st.plotly_chart(fig2, width='stretch')
