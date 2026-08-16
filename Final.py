@@ -65,4 +65,4 @@ fig1 = px.scatter(
     log_y=True,
     title="Deaths per 100k vs. Town Population (log-log)",
     labels={"Population": "Town Population"},)
-    st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, use_container_width=True)
