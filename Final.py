@@ -62,10 +62,6 @@ st.plotly_chart(fig1, width='stretch')
 
 
 
-available_tiers = df["Town Tier"].unique().tolist()
-selected_tiers = st.multiselect(
-    "Filter Town Tiers:", available_tiers, default=available_tiers)
-filtered_df = df[df["Town Tier"].isin(selected_tiers)]
 
 df.columns = df.columns.str.strip()
 
