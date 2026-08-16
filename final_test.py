@@ -33,7 +33,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
 
 metric_choice = st.selectbox(
         "Metric",
-        ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],
+        ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
 latest = (data.sort_values("Last update date").groupby("Town", as_index=False).last())
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
