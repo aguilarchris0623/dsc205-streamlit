@@ -32,7 +32,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
 latest = (
         filtered.sort_values("Last update date")
         .groupby("Town", as_index=False)
-        .last()
+        .last())
 
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 
