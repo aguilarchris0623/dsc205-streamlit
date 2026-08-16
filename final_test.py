@@ -31,17 +31,22 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  on='Town',
  how='inner',)
 
-df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
+metric_choice = st.selectbox(
+        "Metric",
+        ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],
 
-selected_metric = st.selectbox(
-    "Select Y-Axis Metric:",
-    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
+latest = (data.sort_values("Last update date").groupby("Town", as_index=False).last())
+latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
+latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
-fig = px.scatter(df,
+fig1 = px.scatter(
+        latest,
         x="Population",
-        y="selected_metric",
+        y=metric_choice,
         color="Town_Tier",
-        hover_name="name",
+        hover_name="Town",
         log_x=True,
-        log_y=(metric_choice != "Positivity Rate (%)"))
+        log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
+        title=f"{metric_choice} vs. Town Population",
+        labels={"Population": "Town Population"},)
 st.plotly_chart(fig1, use_container_width=True)
