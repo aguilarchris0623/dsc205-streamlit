@@ -52,18 +52,19 @@ latest = (
         .groupby("Town", as_index=False)
         .last())
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(latest)
-
 tests_cleaned = latest["Number of tests"].astype(str).str.replace(',', '')
 positives_cleaned = latest["Number of positives"].astype(str).str.replace(',', '')
 tests = pd.to_numeric(tests_cleaned, errors='coerce')
 positives = pd.to_numeric(positives_cleaned, errors='coerce')
 
+if st.checkbox('Show raw data'):
+    st.subheader('Raw data')
+    st.write(latest)
+
+
 # Define metric_choice before using it
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = ('positives' / 'tests') * 100
+latest["Positivity Rate (%)"] = (positives / tests) * 100
 
 fig1 = px.scatter(
     latest,
