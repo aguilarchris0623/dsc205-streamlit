@@ -46,21 +46,23 @@ latest_df["Positivity Rate (%)"] = (latest_df["Number of positives"] / latest_df
 # Widget: Metric Selection Dropdown
 selected_metric = st.selectbox(
     "Select Y-Axis Metric:",
-    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],
-)
+    ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
-# Plot Visual 1
+
+latest = (
+        filtered.sort_values("Last update date")
+        .groupby("Town", as_index=False)
+        .last())
+latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
+ 
 fig1 = px.scatter(
-    latest_df,
+    latest,
     x="Population",
-    y=selected_metric,
+    y="Deaths per 100k",
     color="Town_Tier",
     hover_name="Town",
-    log_x=True,  # Log scale x-axis to accommodate population variance
-    log_y=True,  # Log scale y-axis
-    title=f"Town Population vs. {selected_metric} (Log-Log Scale)",
-    labels={"Population": "Town Population (Log Scale)"},
-    color_discrete_sequence=px.colors.qualitative.Set1,
-)
-
-st.plotly_chart(fig1, use_container_width=True)
+    log_x=True,
+    log_y=True,
+    title="Deaths per 100k vs. Town Population (log-log)",
+    labels={"Population": "Town Population"},)
+    st.plotly_chart(fig1, use_container_width=True)
