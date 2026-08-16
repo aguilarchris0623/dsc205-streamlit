@@ -46,15 +46,34 @@ metric_choice = st.selectbox(
 df["Deaths per 100k"] = (df["Total deaths"] / df["Population"]) * 100_000
 df["Positivity Rate (%)"] = (df["Number of positives"] / df["Number of tests"]) * 100
 
-fig1 = px.scatter(
-        df,
-        x="Population",
-        y=metric_choice,
-        color="Town_Tier",
-        hover_name="Town",
-        log_x=True,
-        log_y=(metric_choice != "Positivity Rate (%)"),  # a %, so linear y reads better
-        title=f"{metric_choice} vs. Town Population",
-        labels={"Population": "Town Population"},)
+fig = px.scatter(
+    df,
+    x="Population",
+    y=selected_metric,
+    color="Town_Tier",
+    log_x=True, # Apply logarithmic scale to the x-axis
+    title=f"Town Population (Log Scale) vs. {selected_metric}",
+    labels={
+        "Population": "Town Population (Log Scale)",
+        selected_metric: selected_metric
+    },
+    hover_name="Town", # Show Town name on hover
+    hover_data={
+        "Population": ':.0f',
+        selected_metric: ':,.2f',
+        "Town_Tier": True
+    },
+    color_discrete_sequence=px.colors.qualitative.Set1, # Use a similar color palette
+    height=500 # Set a fixed height for the plot
+)
 
-st.plotly_chart(fig1, use_container_width=True)
+# Update layout for better readability and ensure y-axis starts from 0
+fig.update_layout(
+    legend_title_text='Town Tier',
+    yaxis_range=[0, df[selected_metric].max() * 1.05] # Start y-axis from 0 and add some padding
+)
+
+fig.update_traces(marker=dict(size=10, opacity=0.7))
+
+# Display the plot in Streamlit
+st.plotly_chart(fig, width='stretch')
