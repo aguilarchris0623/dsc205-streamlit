@@ -13,9 +13,13 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 TIER_BINS = [0, 10_000, 50_000, float("inf")]
 TIER_LABELS = ["Rural (<10k)", "Suburban (10k-50k)", "Urban Hubs (>50k)"]
 
-pop = (df.groupby("TOWN NAME")["ALL_RACE-ETHN"].sum().reset_index().rename(columns={"ALL_RACE-ETHN": "Population"})
+pop = (
+        df_pop.groupby("TOWN NAME")["ALL_RACE-ETHN"]
+        .sum()
+        .reset_index()
+        .rename(columns={"ALL_RACE-ETHN": "Population"}))
 pop["Town"] = pop["TOWN NAME"].str.replace(r"\s+town$", "", regex=True).str.strip()
-  return pop[["Town", "Population"]]
+
 
 df["Last update date"] = pd.to_datetime(df["Last update date"])
 
