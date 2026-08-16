@@ -22,6 +22,7 @@ for col in df.columns:
         if df_tests[col].equals(pd.to_numeric(
                 df_tests[col].astype(str).str.replace(",", "", regex=False),
                 errors="coerce")):
+                    Pass
 
 def get_tier(pop):
         if pop > 50000:
