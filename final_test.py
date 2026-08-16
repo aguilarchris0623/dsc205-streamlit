@@ -39,7 +39,7 @@ town_pop[['Town', 'Population', 'Town_Tier']],
  how='inner',)
 
 latest = (
-        filtered.sort_values("Last update date")
+        sort_values("Last update date")
         .groupby("Town", as_index=False)
         .last())
 
