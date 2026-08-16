@@ -61,14 +61,31 @@ fig1 = px.scatter(
 st.plotly_chart(fig1, width='stretch')
 
 
+filtered_df = df[df['Town_Tier'].isin(selected_tiers)]
 
+# Group chronologically by Date and Town Tier
+tier_ts = (
+    filtered_df.groupby(['Last update date', 'Town_Tier'])[
+        ['Total cases', 'Population']
+    ]
+    .sum()
+    .reset_index()
+)
+tier_ts['Cumulative Cases per 100k'] = (
+    tier_ts['Total cases'] / tier_ts['Population']
+) * 100000
+
+# Plot Visual 2
 fig2 = px.line(
-        df,
-        x="Last update date",
-        y="Total cases",
-        color="Town Tier",
-        markers=True,
-        title="Cumulative Cases per 100k Residents Over Time",
-        labels={"Last update date": "Date", "Cumulative Cases per 100k": "Cases per 100k"},)
+    tier_ts,
+    x="Last update date",
+    y="Cumulative Cases per 100k",
+    color="Town_Tier",
+    title="Cumulative Cases per 100k Residents Over Time",
+    labels={
+        "Last update date": "Date",
+        "Cumulative Cases per 100k": "Cases per 100k",
+    },
+    color_discrete_sequence=px.colors.qualitative.Set1,)
 
 st.plotly_chart(fig2, use_container_width=True)
