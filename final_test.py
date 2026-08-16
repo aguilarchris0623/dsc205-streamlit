@@ -44,7 +44,7 @@ selected_metric = st.selectbox(
         ["Deaths per 100k", "Total deaths", "Positivity Rate (%)"],)
 
 latest = (
-        data.sort_values("Last update date")
+        df.sort_values("Last update date")
         .groupby("Town", as_index=False)
         .last())
 
