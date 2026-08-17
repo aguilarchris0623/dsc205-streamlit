@@ -7,15 +7,30 @@ import plotly.express as px
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests(in).csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
-#Clean the population data so it matched the same Town names as the Covid data. Add up all age groups and sex to get total town population 
+#Clean town names
 town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
+
+#Map age codes to bins
+def get_age_bin(code):
+    if code <= 4:
+        return '0-19'
+    elif code <= 8:
+        return '20-39'
+    elif code <= 12:
+        return '40-59'
+    elif code <= 16:
+        return '60-79'
+    else:
+        return '80+'
+
+#Total population per town
 town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
 #Convert srting date to datetime format
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-#Create tiers to divide up different sized towns
+#Create tiers to divide different sized towns
 def get_tier(pop):
         if pop > 50000:
             return 'Urban (>50k)'
@@ -25,6 +40,9 @@ def get_tier(pop):
             return 'Rural (<10k)'
                 
 town_pop["Town Tier"] = town_pop['Population'].apply(get_tier)
+
+# Merge town tier back
+df_pop_merged = pd.merge(df_pop, town_pop[['Town', 'Town Tier']], on='Town', how='inner')
 
 #Combine both datasets
 df = pd.merge(
@@ -69,7 +87,24 @@ st.plotly_chart(fig1)
 
 st.markdown('---')
 
-st.subheader("2. New Cases by Town Size Tier")
+st.subheader("2. Age Demographics by Town Tier")
+
+# Group population by Tier and Age Bin
+tier_age = (df_pop_merged.groupby(['Town Tier', 'Age Bin'])['ALL_RACE-ETHN'].sum().reset_index())
+
+# Pivot into structured format
+age_pivot = tier_age.pivot(index='Town Tier', columns='Age Bin', values='ALL_RACE-ETHN')
+
+# Reorder rows and columns logically
+tier_order = ['Urban (>50k)', 'Suburban (10k-50k)', 'Rural (<10k)']
+age_order = ['0-19', '20-39', '40-59', '60-79', '80+']
+age_pivot = age_pivot.reindex(index=tier_order, columns=age_order)
+
+
+
+st.markdown('---')
+
+st.subheader("3. New Cases by Town Size Tier")
 
 df.columns = df.columns.str.strip()
 
