@@ -31,16 +31,16 @@ town_pop[['Town', 'Population', 'Town Tier']],
  on='Town',
  how='inner',)
 
-st.header('Covid-19 Population vs. Infection & Mortality Metrics')
-
-metric_choice = st.selectbox(
-        "Metric",
-        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
+st.header('Covid-19 Population vs. Infection & Mortality')
 
 latest = (
         df.sort_values("Last update date")
         .groupby("Town", as_index=False)
         .last())
+
+metric_choice = st.selectbox(
+        "Metric",
+        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
 
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
