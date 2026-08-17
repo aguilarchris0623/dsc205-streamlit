@@ -110,4 +110,4 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-st.plotly_chart(fig2, width='stretch')
+st.plotly_chart(fig2)
