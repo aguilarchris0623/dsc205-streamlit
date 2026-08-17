@@ -99,9 +99,9 @@ date_range = st.slider(
         max_value=max_date.to_pydatetime(),
         value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
         key="chart2_date_range",)
-chart2_data = monthly_new[
-    monthly_new["Town_Tier"].isin(tiers_selected)
-    & monthly_new["Month"].between(*date_range)]
+chart2_data = df[
+    df["Town Tier"].isin(tiers_selected)
+    & df["Last update date"].between(*date_range)]
 
 
 st.plotly_chart(fig2, width='stretch')
