@@ -110,20 +110,4 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-alpha = pd.to_datetime('2020-12-24')
-fig2.add_vline(
-        x=alpha,
-        line_dash="dash",
-        line_width=1,
-        line_color="yellow",
-        annotation_text="Aplha")
-
-omnicron = pd.to_datetime('2022-01-10')
-fig2.add_vline(
-        x=omnicron,
-        line_dash="dash",
-        line_width=1,
-        line_color="yellow",
-        annotation_text="Omicron")
-
 st.plotly_chart(fig2, width='stretch')
