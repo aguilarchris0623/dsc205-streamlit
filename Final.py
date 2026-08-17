@@ -105,7 +105,7 @@ fig2 = px.line(
     x="Last update date",
     y="Daily New Cases",
     color="Town Tier",
-    title="Daily New Cases Over Time by Town Tier",
+    title="Daily New Cases Over Time by Town Tier")
 
 st.plotly_chart(fig2)
 
