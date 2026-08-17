@@ -92,17 +92,11 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-min_date = tier_ts['Last update date'].min()
-max_date = tier_ts['Last update date'].max()
-
-# Streamlit date input for date range selection
-selected_date_range = st.date_input(
-    "Select date range:",
-    value=(min_date, max_date),
-    min_value=min_date,
-    max_value=max_date,)
-
-filtered_tier_ts = tier_ts[(tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
-                           (tier_ts['Last update date'] <= pd.to_datetime(end_date))]
+    date_range = st.slider(
+        "Last update date",
+        min_value=min_date.to_pydatetime(),
+        max_value=max_date.to_pydatetime(),
+        value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
+        key="chart2_date_range",)
 
 st.plotly_chart(fig2, width='stretch')
