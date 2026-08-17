@@ -100,7 +100,7 @@ date_range = st.slider(
         value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
         key="chart2_date_range",)
 chart2_data = df[
-    df["Town Tier"].isin(tiers_selected)
+    df["Town Tier"].isin(tier_ts)
     & df["Last update date"].between(*date_range)]
 
 
