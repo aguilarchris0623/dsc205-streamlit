@@ -112,7 +112,7 @@ st.plotly_chart(fig2)
 fig3 = px.box(
     df,
     x="Town Tier",
-    y="population",
+    y="Population",
     title="Town Population")
 
 st.plotly_chart(fig3)
