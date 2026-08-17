@@ -4,73 +4,155 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+# Load datasets
+df_tests = pd.read_csv("covid19_tests(in).csv")
+df_pop = pd.read_csv("2020v21CT.csv")
 
-df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests.csv")
-df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
+# Clean town names
+df_pop['Town'] = df_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip()
 
-# 6. Aggregate population per town & clean town names
-town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
-town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
+# Map age codes to 20-year age bins
+def get_age_bin(code):
+    if code <= 4:
+        return '0-19'
+    elif code <= 8:
+        return '20-39'
+    elif code <= 12:
+        return '40-59'
+    elif code <= 16:
+        return '60-79'
+    else:
+        return '80+'
+
+df_pop['Age Bin'] = df_pop['AGE_CODE'].apply(get_age_bin)
+
+# Clean total population per town
+town_pop = df_pop.groupby('Town')['ALL_RACE-ETHN'].sum().reset_index()
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
+# Convert string date to datetime format
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-columns_to_exclude = ['Last update date', 'Town']
-
-for col in df_tests.columns:
-    if col not in columns_to_exclude:
-        # Ensure the column is treated as string, remove commas, then convert to numeric
-        # This directly applies the conversion to the column
-        if df_tests[col].dtype == 'object': # Only apply str operations if it's an object type
-            df_tests[col] = df_tests[col].astype(str).str.replace(",", "", regex=False)
-        df_tests[col] = pd.to_numeric(df_tests[col], errors="coerce")
-
-
+# Define tier mapping
 def get_tier(pop):
-        if pop > 50000:
-            return 'Urban (>50k)'
-        elif pop >= 10000:
-            return 'Suburban (10k-50k)'
-        else:
-            return 'Rural (<10k)'
-                
+    if pop > 50000:
+        return 'Urban (>50k)'
+    elif pop >= 10000:
+        return 'Suburban (10k-50k)'
+    else:
+        return 'Rural (<10k)'
 
-town_pop['Town_Tier'] = town_pop['Population'].apply(get_tier)
+town_pop["Town Tier"] = town_pop['Population'].apply(get_tier)
 
+# Merge town tier back into population dataset for age breakdown
+df_pop_merged = pd.merge(df_pop, town_pop[['Town', 'Town Tier']], on='Town', how='inner')
+
+# Combine test data with town population & tier data
 df = pd.merge(
-df_tests,
-town_pop[['Town', 'Population', 'Town_Tier']],
- on='Town',
- how='inner',)
+    df_tests,
+    town_pop[['Town', 'Population', 'Town Tier']],
+    on='Town',
+    how='inner'
+)
 
-metric_choice = st.selectbox(
-        "Metric",
-        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
+st.header('Covid-19 Population vs. Infection & Mortality')
 
-latest = (
-        df.sort_values("Last update date")
-        .groupby("Town", as_index=False)
-        .last())
+# Pull latest recorded data
+latest = df.sort_values("Last update date").groupby("Town", as_index=False).last()
 
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
 
+st.markdown('---')
+
+st.subheader("1. Population & Mortality Benchmark")
+
+metric_choice = st.selectbox(
+    "Metric",
+    ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"]
+)
+
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
-latest["Positivity Rate (%)"] = (latest["Number of tests"] / latest["Number of positives"]) * 10
+latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
 fig1 = px.scatter(
     latest,
     x="Population",
     y=metric_choice,
-    color="Town_Tier",
+    color="Town Tier",
     hover_name="Town",
     log_x=True,
+    title=f"{metric_choice} vs. Town Population"
+)
 
-    title=f"{metric_choice} vs. Town Population",
-    labels={"Population": "Town Population"},)
-st.plotly_chart(fig1, use_container_width=True)
-fig1.update_traces(marker=dict(size=10, opacity=0.7))
+st.plotly_chart(fig1)
 
-# Display the plot in Streamlit
-st.plotly_chart(fig1, width='stretch')
+st.markdown('---')
+
+# --- NEW SECTION: Demographics Table ---
+st.subheader("2. Age Demographics by Town Tier")
+
+# Group population by Tier and Age Bin
+tier_age = (
+    df_pop_merged.groupby(['Town Tier', 'Age Bin'])['ALL_RACE-ETHN']
+    .sum()
+    .reset_index()
+)
+
+# Pivot into structured format
+age_pivot = tier_age.pivot(index='Town Tier', columns='Age Bin', values='ALL_RACE-ETHN')
+
+# Reorder rows and columns logically
+tier_order = ['Urban (>50k)', 'Suburban (10k-50k)', 'Rural (<10k)']
+age_order = ['0-19', '20-39', '40-59', '60-79', '80+']
+age_pivot = age_pivot.reindex(index=tier_order, columns=age_order)
+
+# Option to toggle between raw count and percentage
+view_type = st.radio("Display Format:", ["Population Count", "Percentage Makeup (%)"], horizontal=True)
+
+if view_type == "Percentage Makeup (%)":
+    age_display = age_pivot.div(age_pivot.sum(axis=1), axis=0) * 100
+    st.dataframe(age_display.style.format("{:.2f}%"))
+else:
+    st.dataframe(age_pivot.style.format("{:,.0f}"))
+
+st.markdown('---')
+
+st.subheader("3. New Cases by Town Size Tier")
+
+df.columns = df.columns.str.strip()
+
+df_sorted = df.sort_values(by=['Town', 'Last update date'])
+df_sorted['Daily New Cases'] = df_sorted.groupby('Town')['Total cases'].diff().fillna(0)
+
+tier_ts = df_sorted.groupby(['Last update date', 'Town Tier'])['Daily New Cases'].sum().reset_index()
+
+min_date_dt = tier_ts['Last update date'].min()
+max_date_dt = tier_ts['Last update date'].max()
+min_date_slider = min_date_dt.date()
+max_date_slider = max_date_dt.date()
+
+selected_date_range = st.slider(
+    "Select Date Range:",
+    min_value=min_date_slider,
+    max_value=max_date_slider,
+    value=(min_date_slider, max_date_slider)
+)
+
+start_date, end_date = selected_date_range
+
+filtered_tier_ts = tier_ts[
+    (tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
+    (tier_ts['Last update date'] <= pd.to_datetime(end_date))
+]
+
+fig2 = px.line(
+    filtered_tier_ts,
+    x="Last update date",
+    y="Daily New Cases",
+    color="Town Tier",
+    title="Daily New Cases Over Time by Town Tier"
+)
+
+st.plotly_chart(fig2)
