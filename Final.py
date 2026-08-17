@@ -102,4 +102,7 @@ selected_date_range = st.date_input(
     min_value=min_date,
     max_value=max_date,)
 
+filtered_tier_ts = tier_ts[(tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
+                           (tier_ts['Last update date'] <= pd.to_datetime(end_date))]
+
 st.plotly_chart(fig2, width='stretch')
