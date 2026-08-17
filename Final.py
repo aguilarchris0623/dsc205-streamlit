@@ -4,17 +4,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
-
 df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/covid19_tests(in).csv")
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
-# 6. Aggregate population per town & clean town names
+#Clean the population data so it matched the same Town names as the Covid data. Add up all age groups and sex to get total town population 
 town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
 town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 
+#Convert srting date to datetime format
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
+#Create tiers by Town population
 def get_tier(pop):
         if pop > 50000:
             return 'Urban (>50k)'
@@ -25,6 +26,7 @@ def get_tier(pop):
                 
 town_pop["Town Tier"] = town_pop['Population'].apply(get_tier)
 
+#Combine both datasets
 df = pd.merge(
 df_tests,
 town_pop[['Town', 'Population', 'Town Tier']],
@@ -33,10 +35,8 @@ town_pop[['Town', 'Population', 'Town Tier']],
 
 st.header('Covid-19 Population vs. Infection & Mortality')
 
-latest = (
-        df.sort_values("Last update date")
-        .groupby("Town", as_index=False)
-        .last())
+#Pull the last entries recorded on 6/24/2022 for all 169 Towns. Need totals for visuals
+latest = (df.sort_values("Last update date").groupby("Town", as_index=False).last())
 
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
@@ -44,17 +44,21 @@ if st.checkbox('Show raw data'):
 
 st.markdown('---')
 
+st.subheader("1. Population & Mortality Benchmark")
+
+#Select between three options for different visuals
 metric_choice = st.selectbox(
         "Metric",
         ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
 
+#Equations for mertics
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
 fig1 = px.scatter(
     latest,
     x="Population",
-    y=metric_choice,
+    y="metric_choice",
     color="Town Tier",
     hover_name="Town",
     log_x=True,
@@ -109,6 +113,5 @@ fig2 = px.line(
     labels={
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
-
 
 st.plotly_chart(fig2, width='stretch')
