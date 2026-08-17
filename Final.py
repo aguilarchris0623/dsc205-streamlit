@@ -126,7 +126,7 @@ def categorize_age_20yr(code):
 df_pop['Age_Bin'] = df_pop['AGE_CODE'].apply(categorize_age_20yr)
 
 tier_age = (
-    df_merged.groupby(['Town_Tier', 'Age_Bin'])['ALL_RACE-ETHN']
+    df.groupby(['Town_Tier', 'Age_Bin'])['ALL_RACE-ETHN']
     .sum()
     .reset_index()
 )
@@ -158,3 +158,5 @@ fig_demographics = px.bar(
 )
 
 fig_demographics.update_layout(yaxis_suffix='%', legend_title_text='Age Bin')
+
+st.plotly_chart(fig_demographics, use_container_width=True)
