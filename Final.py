@@ -55,6 +55,7 @@ metric_choice = st.selectbox(
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
 
+#Visual 1: Town population vs...
 fig1 = px.scatter(
     latest,
     x="Population",
@@ -76,17 +77,16 @@ df.columns = df.columns.str.strip()
 df_sorted = df.sort_values(by=['Town', 'Last update date'])
 df_sorted['Daily New Cases'] = df_sorted.groupby('Town')['Total cases'].diff().fillna(0)
 
-
-
-# Aggregate daily new cases by date and town tier for plotting
+# Aggregate daily new cases by date and town tier
 tier_ts = df_sorted.groupby(['Last update date', 'Town Tier'])['Daily New Cases'].sum().reset_index()
 
+#Find the min and max dates for slider
 min_date_dt = tier_ts['Last update date'].min()
 max_date_dt = tier_ts['Last update date'].max()
-
 min_date_slider = min_date_dt.date()
 max_date_slider = max_date_dt.date()
 
+#Code for interactive slider
 selected_date_range = st.slider(
     "Select Date Range:",
     min_value=min_date_slider,
@@ -99,7 +99,7 @@ filtered_tier_ts = tier_ts[
     (tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
     (tier_ts['Last update date'] <= pd.to_datetime(end_date))]
 
-# Plot Visual 2: Daily New Cases
+#Visual 2: Daily New Cases
 fig2 = px.line(
     filtered_tier_ts,
     x="Last update date",
