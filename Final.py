@@ -38,13 +38,13 @@ latest = (
         .groupby("Town", as_index=False)
         .last())
 
-metric_choice = st.selectbox(
-        "Metric",
-        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
-
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
+
+metric_choice = st.selectbox(
+        "Metric",
+        ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
 
 latest["Deaths per 100k"] = (latest["Total deaths"] / latest["Population"]) * 100_000
 latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number of tests"]) * 100
