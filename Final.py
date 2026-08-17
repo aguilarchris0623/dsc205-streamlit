@@ -48,10 +48,10 @@ df_pop_merged = pd.merge(df_pop, town_pop[['Town', 'Town Tier']], on='Town', how
 
 #Combine both datasets
 df = pd.merge(
-df_tests,
-town_pop[['Town', 'Population', 'Town Tier']],
- on='Town',
- how='inner',)
+    df_tests,
+    town_pop[['Town', 'Population', 'Town Tier']],
+    on='Town',
+    how='inner')
 
 st.header('Covid-19 Population vs. Infection & Mortality')
 
