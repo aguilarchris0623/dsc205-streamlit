@@ -97,7 +97,7 @@ tier_age = (df_pop_merged.groupby(['Town Tier', 'Age Bin'])['ALL_RACE-ETHN'].sum
 age_pivot = tier_age.pivot(index='Town Tier', columns='Age Bin', values='ALL_RACE-ETHN')
 
 #Calculate and display percentage makeup
-age_pct = age_pivot.div(age_pivot.sum) * 100
+age_pct = age_pivot.div(age_pivot.sum * 100)
 st.dataframe(age_pct.style.format("{:.2f}%"))
 
 st.markdown('---')
