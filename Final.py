@@ -101,7 +101,7 @@ filtered_tier_ts = tier_ts[
 
 # Plot Visual 2: Daily New Cases
 fig2 = px.line(
-    tier_ts,
+    filtered_tier_ts,
     x="Last update date",
     y="Daily New Cases",
     color="Town Tier",
