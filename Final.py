@@ -109,7 +109,7 @@ fig2 = px.line(
 
 st.plotly_chart(fig2)
 
-fig3 = px.box(
+fig3 = px.subplots(
     df,
     x="Town Tier",
     y="Population",
