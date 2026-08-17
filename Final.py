@@ -65,7 +65,6 @@ fig1 = px.scatter(
     title=f"{metric_choice} vs. Town Population",
     labels={"Population": "Town Population"},)
 
-st.plotly_chart(fig1, width='stretch')
 
 st.markdown('---')
 
