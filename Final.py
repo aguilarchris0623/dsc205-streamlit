@@ -81,27 +81,33 @@ df_sorted['Daily New Cases'] = df_sorted['Daily New Cases'].apply(lambda x: max(
 # Aggregate daily new cases by date and town tier for plotting
 tier_ts = df_sorted.groupby(['Last update date', 'Town Tier'])['Daily New Cases'].sum().reset_index()
 
+min_date_dt = tier_ts['Last update date'].min()
+max_date_dt = tier_ts['Last update date'].max()
+
+min_date_slider = min_date_dt.date()
+max_date_slider = max_date_dt.date()
+
+selected_date_range = st.slider(
+    "Select Date Range:",
+    min_value=min_date_slider,
+    max_value=max_date_slider,
+    value=(min_date_slider, max_date_slider))
+
+filtered_tier_ts = tier_ts[
+    (tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
+    (tier_ts['Last update date'] <= pd.to_datetime(end_date))]
+
 # Plot Visual 2: Daily New Cases
 fig2 = px.line(
     tier_ts,
     x="Last update date",
     y="Daily New Cases",
+        animation_frame="model_year",
     color="Town Tier",
     title="Daily New Cases Over Time by Town Tier",
     labels={
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
-
-min_date, max_date = df["Last update date"].min(), df["Last update date"].max()
-date_range = st.slider(
-        "Last update date",
-        min_value=min_date.to_pydatetime(),
-        max_value=max_date.to_pydatetime(),
-        value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
-        key="chart2_date_range",)
-chart2_data = df[
-    df["Town Tier"].isin(tier_ts)
-    & df["Last update date"].between(*date_range)]
 
 
 st.plotly_chart(fig2, width='stretch')
