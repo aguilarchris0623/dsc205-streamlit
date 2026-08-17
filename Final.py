@@ -58,7 +58,7 @@ latest["Positivity Rate (%)"] = (latest["Number of positives"] / latest["Number 
 fig1 = px.scatter(
     latest,
     x="Population",
-    y="metric_choice",
+    y=metric_choice,
     color="Town Tier",
     hover_name="Town",
     log_x=True,
