@@ -15,7 +15,7 @@ town_pop = town_pop.rename(columns={'ALL_RACE-ETHN': 'Population'})
 #Convert srting date to datetime format
 df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
-#Create tiers by Town population
+#Create tiers to divide up different sized towns
 def get_tier(pop):
         if pop > 50000:
             return 'Urban (>50k)'
@@ -72,14 +72,11 @@ st.subheader("2. New Cases by Town Size Tier")
 
 df.columns = df.columns.str.strip()
 
-# Sort by date for correct difference calculation for each town
+# Calculate daily new cases per town
 df_sorted = df.sort_values(by=['Town', 'Last update date'])
-
-# Calculate daily new cases per town. fillna(0) for the first day of each town.
 df_sorted['Daily New Cases'] = df_sorted.groupby('Town')['Total cases'].diff().fillna(0)
 
-# Ensure new cases are not negative (e.g., due to data corrections, though they shouldn't be negative)
-df_sorted['Daily New Cases'] = df_sorted['Daily New Cases'].apply(lambda x: max(0, x))
+
 
 # Aggregate daily new cases by date and town tier for plotting
 tier_ts = df_sorted.groupby(['Last update date', 'Town Tier'])['Daily New Cases'].sum().reset_index()
