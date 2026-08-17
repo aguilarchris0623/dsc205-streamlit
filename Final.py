@@ -93,6 +93,8 @@ selected_date_range = st.slider(
     max_value=max_date_slider,
     value=(min_date_slider, max_date_slider))
 
+start_date, end_date = selected_date_range
+
 filtered_tier_ts = tier_ts[
     (tier_ts['Last update date'] >= pd.to_datetime(start_date)) &
     (tier_ts['Last update date'] <= pd.to_datetime(end_date))]
