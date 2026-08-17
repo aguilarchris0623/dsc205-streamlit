@@ -92,7 +92,7 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-    date_range = st.slider(
+date_range = st.slider(
         "Last update date",
         min_value=min_date.to_pydatetime(),
         max_value=max_date.to_pydatetime(),
