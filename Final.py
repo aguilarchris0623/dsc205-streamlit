@@ -89,13 +89,9 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-min_date, max_date = data["Last update date"].min(), data["Last update date"].max()
+min_date, max_date = df["Last update date"].min(), data["Last update date"].max()
 
 date_range = st.slider(
-        "Date range",
-        min_value=min_date.to_pydatetime(),
-        max_value=max_date.to_pydatetime(),
-        value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
-        key="chart2_date_range",)
+        "Last update date")
 
 st.plotly_chart(fig2, width='stretch')
