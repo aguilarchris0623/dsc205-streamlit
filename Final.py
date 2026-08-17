@@ -8,7 +8,7 @@ df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc20
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
 #Clean town names
-town_pop['Town'] = (df_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
+df_pop['Town'] = (df_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 
 #Map age codes to bins
 def get_age_bin(code):
@@ -22,6 +22,8 @@ def get_age_bin(code):
         return '60-79'
     else:
         return '80+'
+
+df_pop['Age Bin'] = df_pop['AGE_CODE'].apply(get_age_bin)
 
 #Total population per town
 town_pop = (df_pop.groupby('TOWN NAME')['ALL_RACE-ETHN'].sum().reset_index())
