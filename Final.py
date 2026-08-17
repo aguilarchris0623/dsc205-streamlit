@@ -126,16 +126,16 @@ def categorize_age_20yr(code):
 df_pop['Age_Bin'] = df_pop['AGE_CODE'].apply(categorize_age_20yr)
 
 tier_age = (
-    df.groupby(['Town_Tier', 'Age_Bin'])['ALL_RACE-ETHN']
+    df.groupby(["Town Tier", 'Age_Bin'])['ALL_RACE-ETHN']
     .sum()
     .reset_index()
 )
 tier_total = (
-    df_merged.groupby('Town_Tier')['ALL_RACE-ETHN'].sum().reset_index()
+    df_merged.groupby('"Town Tier"')['ALL_RACE-ETHN'].sum().reset_index()
 )
 
 tier_age = pd.merge(
-    tier_age, tier_total, on='Town_Tier', suffixes=('', '_Total')
+    tier_age, tier_total, on='"Town Tier"', suffixes=('', '_Total')
 )
 tier_age['Percentage'] = (
     tier_age['ALL_RACE-ETHN'] / tier_age['ALL_RACE-ETHN_Total']
@@ -143,7 +143,7 @@ tier_age['Percentage'] = (
 
 fig_demographics = px.bar(
     tier_age,
-    x='Town_Tier',
+    x='"Town Tier"',
     y='Percentage',
     color='Age_Bin',
     barmode='group',
