@@ -34,12 +34,12 @@ df_tests["Last update date"] = pd.to_datetime(df_tests["Last update date"])
 
 #Create tiers to divide different sized towns
 def get_tier(pop):
-        if pop > 50000:
-            return 'Urban (>50k)'
-        elif pop >= 10000:
-            return 'Suburban (10k-50k)'
-        else:
-            return 'Rural (<10k)'
+    if pop > 50000:
+        return 'Urban (>50k)'
+    elif pop >= 10000:
+        return 'Suburban (10k-50k)'
+    else:
+        return 'Rural (<10k)'
                 
 town_pop["Town Tier"] = town_pop['Population'].apply(get_tier)
 
