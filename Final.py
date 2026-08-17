@@ -92,6 +92,7 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
+min_date, max_date = df["Last update date"].min(), data["Last update date"].max()
 date_range = st.slider(
         "Last update date",
         min_value=min_date.to_pydatetime(),
