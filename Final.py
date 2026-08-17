@@ -110,7 +110,7 @@ fig2 = px.line(
 st.plotly_chart(fig2)
 
 fig3 = px.box(
-    df_pop,
+    df,
     x="Town Tier",
     y="population",
     title="Town Population")
