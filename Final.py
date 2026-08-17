@@ -89,4 +89,11 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
+date_range = st.slider(
+        "Date range",
+        min_value=min_date.to_pydatetime(),
+        max_value=max_date.to_pydatetime(),
+        value=(min_date.to_pydatetime(), max_date.to_pydatetime()),
+        key="chart2_date_range",)
+
 st.plotly_chart(fig2, width='stretch')
