@@ -62,7 +62,7 @@ fig1 = px.scatter(
 st.plotly_chart(fig1, width='stretch')
 
 
-
+st.subheader("2. New Cases by Town Size Tier")
 
 df.columns = df.columns.str.strip()
 
@@ -88,6 +88,8 @@ fig2 = px.line(
     labels={
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
+
+min_date, max_date = data["Last update date"].min(), data["Last update date"].max()
 
 date_range = st.slider(
         "Date range",
