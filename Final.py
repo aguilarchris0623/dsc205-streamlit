@@ -115,7 +115,7 @@ fig2.add_vline(
     x=omnicron,
 line_width=2,
     line_dash="dash",
-    line_color="yallow",
+    line_color="yellow",
     annotation_text="Omicron Peak")
 
 st.plotly_chart(fig2, width='stretch')
