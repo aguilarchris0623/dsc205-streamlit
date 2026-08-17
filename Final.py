@@ -62,7 +62,7 @@ fig1 = px.scatter(
     color="Town Tier",
     hover_name="Town",
     log_x=True,
-    title=f"{metric_choice} vs. Town Population",
+    title=f"{metric_choice} vs. Town Population")
 
 st.plotly_chart(fig1)
 
