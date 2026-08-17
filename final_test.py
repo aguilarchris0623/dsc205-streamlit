@@ -6,7 +6,7 @@ import plotly.express as px
 
 # Load datasets
 df_tests = pd.read_csv("covid19_tests(in).csv")
-df_pop = pd.read_csv("2020v21CT.csv")
+df_pop = pd.read_csv("2020v21ct.csv")
 
 # Clean town names
 df_pop['Town'] = df_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip()
