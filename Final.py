@@ -42,6 +42,8 @@ if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(latest)
 
+st.markdown('---')
+
 metric_choice = st.selectbox(
         "Metric",
         ["Total deaths", "Deaths per 100k", "Positivity Rate (%)"],)
@@ -61,6 +63,7 @@ fig1 = px.scatter(
 
 st.plotly_chart(fig1, width='stretch')
 
+st.markdown('---')
 
 st.subheader("2. New Cases by Town Size Tier")
 
@@ -89,7 +92,14 @@ fig2 = px.line(
         "Last update date": "Date",
         "Daily New Cases": "Daily New Cases",},)
 
-date_range = st.slider(
-        "Last update date")
+min_date = tier_ts['Last update date'].min()
+max_date = tier_ts['Last update date'].max()
+
+# Streamlit date input for date range selection
+selected_date_range = st.date_input(
+    "Select date range:",
+    value=(min_date, max_date),
+    min_value=min_date,
+    max_value=max_date,)
 
 st.plotly_chart(fig2, width='stretch')
