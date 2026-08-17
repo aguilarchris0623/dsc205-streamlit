@@ -106,8 +106,15 @@ fig2 = px.line(
     y="Daily New Cases",
     color="Town Tier",
     title="Daily New Cases Over Time by Town Tier",
-    labels={
-        "Last update date": "Date",
-        "Daily New Cases": "Daily New Cases",},)
 
 st.plotly_chart(fig2)
+
+fig3 = px.box(
+    df_pop,
+    x="Town Tier",
+    y="population",
+    title="Town Population")
+
+st.plotly_chart(fig3)
+
+
