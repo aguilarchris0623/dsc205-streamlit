@@ -8,8 +8,7 @@ df_tests = pd.read_csv("https://raw.githubusercontent.com/aguilarchris0623/dsc20
 df_pop = pd.read_csv('https://raw.githubusercontent.com/aguilarchris0623/dsc205-streamlit/refs/heads/main/2020v21ct.csv')
 
 #Clean town names
-town_pop['Town'] = (town_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
-
+town_pop['Town'] = (df_pop['TOWN NAME'].str.replace(' town', '', case=False).str.strip())
 
 #Map age codes to bins
 def get_age_bin(code):
