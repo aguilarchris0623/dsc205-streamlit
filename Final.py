@@ -104,7 +104,6 @@ fig2 = px.line(
     tier_ts,
     x="Last update date",
     y="Daily New Cases",
-        animation_frame="model_year",
     color="Town Tier",
     title="Daily New Cases Over Time by Town Tier",
     labels={
