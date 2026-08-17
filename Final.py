@@ -91,20 +91,16 @@ st.markdown('---')
 
 st.subheader("2. Age Demographics by Town Tier")
 
-# Group population by Tier and Age Bin
 tier_age = (df_pop_merged.groupby(['Town Tier', 'Age Bin'])['ALL_RACE-ETHN'].sum().reset_index())
 
-# Pivot into structured format
 age_pivot = tier_age.pivot(index='Town Tier', columns='Age Bin', values='ALL_RACE-ETHN')
 
-# Reorder rows and columns logically
 tier_order = ['Urban (>50k)', 'Suburban (10k-50k)', 'Rural (<10k)']
 age_order = ['0-19', '20-39', '40-59', '60-79', '80+']
 age_pivot = age_pivot.reindex(index=tier_order, columns=age_order)
 
-# Option to toggle between raw count and percentage
-view_type = st.radio("Display Format:", ["Population Count", "Percentage Makeup (%)"], horizontal=True)
-
+age_pct = age_pivot.div(age_pivot.sum(axis=1), axis=0) * 100
+st.dataframe(age_pct.style.format("{:.2f}%"))
 
 st.markdown('---')
 
