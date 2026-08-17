@@ -114,7 +114,7 @@ alpha = pd.to_datetime('2020-12-24')
 fig2.add_vline(
         x=alpha,
         line_dash="dash",
-        line_width=2,
+        line_width=1,
         line_color="yellow",
         annotation_text="Aplha")
 
