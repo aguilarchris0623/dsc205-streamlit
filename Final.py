@@ -87,6 +87,6 @@ fig2 = px.line(
     title="Daily New Cases Over Time by Town Tier",
     labels={
         "Last update date": "Date",
-        "Daily New Cases": "Daily New Cases",},
+        "Daily New Cases": "Daily New Cases",},)
 
 st.plotly_chart(fig2, width='stretch')
