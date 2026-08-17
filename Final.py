@@ -123,7 +123,7 @@ def categorize_age_20yr(code):
         return '80+ yrs'
 
 
-df_pop['Age_Bin'] = df_pop['AGE_CODE'].apply(categorize_age_20yr)
+df_pop['Age_Bin'] = df_pop['AGEGRP'].apply(categorize_age_20yr)
 
 tier_age = (
     df.groupby(["Town Tier", 'Age_Bin'])['ALL_RACE-ETHN']
