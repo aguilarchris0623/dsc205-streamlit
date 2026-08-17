@@ -113,6 +113,9 @@ fig2 = px.line(
 omnicron = pd.to_datetime('2022-01-10')
 fig2.add_vline(
     x=omnicron,
+line_width=2,
+    line_dash="dash",
+    line_color="yallow",
     annotation_text="Omicron Peak")
 
 st.plotly_chart(fig2, width='stretch')
